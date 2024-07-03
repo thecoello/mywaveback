@@ -1,11 +1,9 @@
 <?php
  
 namespace App\Http\Controllers;
- 
-use App\Domains\User;
+
 use App\Domains\User\Application\UserService;
-use Illuminate\Http\Client\Request;
-use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Http\Request;
 use ReflectionClass;
 
 class UserController extends Controller
@@ -17,16 +15,25 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function createUser(HttpRequest $request){
+    public function createUser(Request $request){
+        return $this->userService->createUser($request);
+    }
 
-        $user = new User(explode(':',$request->getContent()));
-        
-        return $this->userService->createUser($user);
+    public function getAllUsers()
+    {
+        return $this->userService->getAllUsers();
     }
 
     public function getUser(string $id){
-        print_r($id);
         return $this->userService->getUser($id);  
+    }
+
+    public function updateUser(string $id, Request $request){
+        return $this->userService->updateUser($id, $request);
+    }
+
+    public function deleteUser(string $id){
+        return $this->userService->deleteUser($id);
     }
 
 }

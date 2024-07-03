@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model  {
+class Contract extends Model  {
 
      /**
      * Indicates if the model should be timestamped.
@@ -19,7 +19,7 @@ class User extends Model  {
      * @var string
      */
 
-    protected $table = 'users';
+    protected $table = 'contracts';
 
      /**
      * The model's default values for attributes.
@@ -29,23 +29,13 @@ class User extends Model  {
 
     protected $fillable = [
         'id',
-        'companyname',
-        'name',
+        'customername',
         'country',
-        'region',
-        'email',
-        'password',
-        'usertype'
+        'saletype',
+        'file',
+        'points',
+        'user_id'
     ];
-
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id';
-
 
     /**
      * The attributes that should be hidden for serialization.
@@ -57,14 +47,10 @@ class User extends Model  {
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The primary key associated with the table.
      *
-     * @return array<string, string>
+     * @var string
      */
-    protected function casts(): array
-    {
-        return [
-            'password' => 'hashed',
-        ];
-    }
+    protected $primaryKey = 'id';
+
 }
