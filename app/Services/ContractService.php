@@ -3,6 +3,7 @@
 namespace App\Domains\Contract\Application;
 
 use App\Domains\Contract\Infrastructure\ContractRespository;
+use Illuminate\Support\Facades\File; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,7 +18,7 @@ class ContractService
 
     public function createContract(Request $contract)
     {
-        $name = $contract->customername ."_".$contract->file->getClientOriginalName();
+        $name = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),1,20)."_".str_replace(' ', '', $contract->customername)."_".$contract->file->getClientOriginalName();
         $path = '/contractsfiles/'.$name;
         Storage::disk('local')->put('.'. $path, file_get_contents($contract->file));
 
@@ -49,31 +50,6 @@ class ContractService
         return $this->ContractRepository->getContract($id);
     }
 
-    public function updateContract(string $id, Request $contract)
-    {
-
-        $name = $contract->customername ."_".$contract->file->getClientOriginalName();
-        $path = './contracts/'.$name;
-        Storage::disk('local')->put($path, file_get_contents($contract->file));
-
-        $newContract = new Request($contract->all());
-        $newContract->merge(['file' => $path]);
-
-        if($newContract->customertype == "Internal promo"){
-            $newContract->merge(['points' => 5]);
-        }
-
-        if($newContract->customertype == "Net New Sale"){
-            $newContract->merge(['points' => 10]);
-        }
-
-        if($newContract->customertype == "Existing Customer Sale"){
-            $newContract->merge(['points' => 15]);
-        }
-        
-        return $this->ContractRepository->updateContract($id, $newContract);
-    }
-
     public function getAllPoints(){
         return $this->ContractRepository->getAllPoints();
     }
@@ -87,7 +63,13 @@ class ContractService
     }
 
     public function deleteContract(string $id)
-    {
-        return $this->ContractRepository->deleteContract($id);
+    {   
+        $contract = $this->getContract($id);
+
+        if($contract){
+            Storage::disk('local')->delete($contract->file);
+            return $this->ContractRepository->deleteContract($id);
+        }
+
     }
 }

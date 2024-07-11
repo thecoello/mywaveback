@@ -20,10 +20,6 @@ class AditionalPointsRespository
         return AditionalPoints::find($id);
     }
 
-    public function updateAditionalPoints(string $id, Request $request){
-        return $this->getAditionalPoints(AditionalPoints::find($id)->update($request->all()));
-    }
-
     public function deleteAditionalPoints(string $id){
         return AditionalPoints::find($id)->delete();
     }

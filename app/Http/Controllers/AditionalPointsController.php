@@ -23,14 +23,6 @@ class AditionalPointsController extends Controller
         return $this->AditionalPointsService->getAllAditionalPoints($userId);
     }
 
-    public function getAditionalPoints(string $id){
-        return $this->AditionalPointsService->getAditionalPoints($id);  
-    }
-
-    public function updateAditionalPoints(string $id, Request $request){
-        return $this->AditionalPointsService->updateAditionalPoints($id, $request);
-    }
-
     public function deleteAditionalPoints(string $id){
         return $this->AditionalPointsService->deleteAditionalPoints($id);
     }

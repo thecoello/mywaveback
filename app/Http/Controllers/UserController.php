@@ -24,6 +24,11 @@ class UserController extends Controller
         return $this->userService->getAllUsers();
     }
 
+    public function getAllAdminUsers()
+    {
+        return $this->userService->getAllAdminUsers();
+    }
+
     public function getUser(string $id){
         return $this->userService->getUser($id);  
     }

@@ -25,16 +25,6 @@ class AditionalPointsService
         return $this->AditionalPointsRepository->getAllAditionalPoints($userId);
     }
 
-    public function getAditionalPoints(string $id)
-    {
-        return $this->AditionalPointsRepository->getAditionalPoints($id);
-    }
-
-    public function updateAditionalPoints(string $id, Request $aditionalPoints)
-    {
-        return $this->AditionalPointsRepository->updateAditionalPoints($id, $aditionalPoints);
-    }
-
     public function deleteAditionalPoints(string $id)
     {
         return $this->AditionalPointsRepository->deleteAditionalPoints($id);

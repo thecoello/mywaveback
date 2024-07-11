@@ -27,10 +27,6 @@ class ContractController extends Controller
         return $this->ContractService->getContract($id);  
     }
 
-    public function updateContract(string $id, Request $request){
-        return $this->ContractService->updateContract($id, $request);
-    }
-
     public function deleteContract(string $id){
         return $this->ContractService->deleteContract($id);
     }
