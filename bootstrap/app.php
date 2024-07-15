@@ -18,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'point','point/*',
             'login','login/*',
             'logout','logout/*',
+            'consulttoken', 'consulttoken/*'
         ]);
 
         $middleware->use([\Illuminate\Http\Middleware\HandleCors::class]);

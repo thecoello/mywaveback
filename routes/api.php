@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/user', [UserController::class, 'createUser']);
-
+Route::post('/passrecover', [UserController::class, 'passwordRecover']);
+Route::get('/consulttoken/{token}', [UserController::class, 'consultToken']);
+Route::put('/changepassword', [UserController::class, 'changePassword']);
 Route::post('/login', [LoginController::class, 'login']);
 
 Route::get('/getallpoints', [ContractController::class, 'getAllPoints']);
