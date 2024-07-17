@@ -40,7 +40,7 @@ class ContractRespository
         
         LEFT JOIN (SELECT aditionalpoints.user_id, SUM(aditionalpoints.points) AS aditional_points FROM aditionalpoints GROUP BY aditionalpoints.user_id) a ON a.user_id = users.id
 
-        WHERE `usertype` LIKE "USER" GROUP BY users.id ORDER BY total DESC LIMIT 10');
+        WHERE `usertype` LIKE "USER" GROUP BY users.id HAVING total > 0  ORDER BY total DESC LIMIT 10');
 
         return $points;
     }
@@ -60,7 +60,7 @@ class ContractRespository
         
         LEFT JOIN (SELECT aditionalpoints.user_id, SUM(aditionalpoints.points) AS aditional_points FROM aditionalpoints GROUP BY aditionalpoints.user_id) a ON a.user_id = users.id
 
-        WHERE `region` LIKE "'.$region.'" AND `usertype` LIKE "USER" GROUP BY users.id ORDER BY total DESC LIMIT 10');
+        WHERE `region` LIKE "'.$region.'" AND `usertype` LIKE "USER" GROUP BY users.id HAVING total > 0 ORDER BY total DESC LIMIT 10');
 
         return $points;        
     }
@@ -78,7 +78,7 @@ class ContractRespository
         FROM contracts GROUP BY contracts.user_id) c ON c.user_id = users.id 
         
         LEFT JOIN (SELECT aditionalpoints.user_id, SUM(aditionalpoints.points) AS aditional_points FROM aditionalpoints GROUP BY aditionalpoints.user_id) a ON a.user_id = users.id AND usertype = "USER"
-        WHERE `id` LIKE "'.$userId.'" AND `usertype` LIKE "USER" GROUP BY users.id ORDER BY total DESC');
+        WHERE `id` LIKE "'.$userId.'" AND `usertype` LIKE "USER" GROUP BY users.id HAVING total > 0 ORDER BY total DESC');
 
         return $points;  
     }

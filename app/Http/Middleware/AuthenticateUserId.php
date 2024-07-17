@@ -15,7 +15,7 @@ class AuthenticateUserId
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->header('user_id') != auth()->user()->id) {
+        if ($request->header('userid') != auth()->user()->id) {
             return response('Unauthorized action.',403);
         }else{
             return $next($request);

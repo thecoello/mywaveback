@@ -51,18 +51,14 @@ class UserService
 
     public function updateUser(string $id, Request $request)
     {
-        $user = $this->getUser($id);
+        $validator = Validator::make($request->all(), ['email' => ['required'], 'password' => [
+            Password::min(6)->numbers()->mixedCase()
+        ]]);
 
-        if ($user->email == $request->email) {
-            $validator = Validator::make($request->all(), ['email' => ['required'], 'password' => [
-                Password::min(6)->numbers()->mixedCase()
-            ]]);
-
-            if ($validator->passes()) {
-                return  $this->userRepository->updateUser($id, $request);
-            } else {
-                return Response::json($validator->errors(), 403);
-            }
+        if ($validator->passes()) {
+            return  $this->userRepository->updateUser($id, $request);
+        } else {
+            return Response::json($validator->errors(), 403);
         }
     }
 
@@ -88,11 +84,10 @@ class UserService
             $tokenCreated = $this->userRepository->passwordCreateToken($userId);
             $data = ['token' => $tokenCreated->token];
 
-            Mail::send('passreset',$data, function($message) use($request){
+            Mail::send('passreset', $data, function ($message) use ($request) {
                 $message->from('support@bewatercompetition.com');
                 $message->subject('Reset Password - My Wave Competition');
                 $message->to($request->email);
-
             });
 
             return Response::json("Email Sent", 200);
@@ -101,15 +96,17 @@ class UserService
         }
     }
 
-    public function consultToken(string $token){
-       return  $this->userRepository->consultToken($token);
+    public function consultToken(string $token)
+    {
+        return  $this->userRepository->consultToken($token);
     }
 
-    public function changePassword(Request $request){
+    public function changePassword(Request $request)
+    {
         $resetPassword =  $this->userRepository->changePassword($request);
-        if($resetPassword){
+        if ($resetPassword) {
             return $resetPassword;
-        }else{
+        } else {
             return Response::json("Token not found", 404);
         }
     }

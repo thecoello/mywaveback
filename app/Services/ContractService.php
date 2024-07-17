@@ -20,7 +20,8 @@ class ContractService
     {
         $name = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),1,20)."_".str_replace(' ', '', $contract->customername)."_".$contract->file->getClientOriginalName();
         $path = '/contractsfiles/'.$name;
-        Storage::disk('local')->put('.'. $path, file_get_contents($contract->file));
+
+        Storage::put('/public/'.$path,file_get_contents($contract->file));
 
         $newContract = new Request($contract->all());
         $newContract->merge(['file' => $path]);
@@ -67,7 +68,7 @@ class ContractService
         $contract = $this->getContract($id);
 
         if($contract){
-            Storage::disk('local')->delete($contract->file);
+            Storage::delete('/public/'.$contract->file);
             return $this->ContractRepository->deleteContract($id);
         }
 
